@@ -363,15 +363,13 @@ public class NetFile
 					{
 						read(i);
 						lastTime[i] = iTime;
+						if(handler != null) {
+							handler.sendEmptyMessage(MSG_NET_CALLBACK);
+						}
 					}
 				}
 
-				if(handler != null) {
-					handler.sendEmptyMessage(MSG_NET_CALLBACK);
-				}
-
-				sleep(10000);
-
+				sleep(200);
 			}
 		}
 	}

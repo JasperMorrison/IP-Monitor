@@ -72,7 +72,7 @@ public class AppList extends AsyncTask<Void,Void,ArrayList<AppInfo>>
 						appInfo = new AppInfo();
 						sTmp = info.applicationInfo.loadLabel(pManager).toString();
 						appInfo.setAppName(sTmp);
-						sTmp = HanziToPinyin.getFirstPinYin(sTmp);
+//						sTmp = HanziToPinyin.getFirstPinYin(sTmp);
 						appInfo.setAllLetter(sTmp);
 						appInfo.setLetter(sTmp.substring(0,1));
 

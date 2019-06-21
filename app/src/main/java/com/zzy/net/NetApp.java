@@ -3,11 +3,13 @@ package com.zzy.net;
 import android.app.Application;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class NetApp extends Application
 {
 	public static NetApp mInstance;
-	private ArrayList<AppInfo> listAPP;
+	private ArrayList<AppInfo> listAPP = new ArrayList<>();
 
 	@Override
 	public void onCreate()
@@ -22,8 +24,19 @@ public class NetApp extends Application
 	}
 
 	public void setAppList(ArrayList<AppInfo> lsApp) {
-		listAPP = lsApp;
+		for (AppInfo app: lsApp){
+			if (!isInList(listAPP, app)){
+				listAPP.add(app);
+			}
+		}
 	}
 
-
+	private boolean isInList(List<AppInfo> l, AppInfo a){
+		for (AppInfo i: l){
+			if (i.getPackName().equals(a.getPackName())){
+				return true;
+			}
+		}
+		return false;
+	}
 }

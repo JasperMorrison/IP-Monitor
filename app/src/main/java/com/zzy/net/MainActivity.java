@@ -4,12 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.http.SslCertificate;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -27,6 +33,7 @@ public class MainActivity extends BaseActivity {
     private SortAdapter adpSort;
     private ListView lvApp;
     private LoadingDialog loadingDialog;
+    Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,9 +42,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.layout_app);
         setTitle(R.string.app_name);
 
-        loadingDialog = new LoadingDialog(this);
-        loadingDialog.showDialog();
-        loadingDialog.show();
+//        loadingDialog = new LoadingDialog(this);
+//        loadingDialog.showDialog();
+//        loadingDialog.show();
 
         AppList appLis= new AppList(this);
         appLis.setOnAppList(new AppList.OnAppListen() {
@@ -53,6 +60,15 @@ public class MainActivity extends BaseActivity {
         });
         appLis.execute();
 
+        mHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message message) {
+                if (message.what == 100) {
+                    updateList();
+                }
+                return true;
+            }
+        });
 
         ClearEditText etSearch= findViewById(R.id.etSearch);
         lvApp =findViewById(R.id.lvApp);
@@ -129,8 +145,12 @@ public class MainActivity extends BaseActivity {
             {
             }
         });
+
+        updateList();
+        updateTimeTamp = SystemClock.elapsedRealtime();
     }
 
+    private static long updateTimeTamp = 0;
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -139,7 +159,10 @@ public class MainActivity extends BaseActivity {
                 loadingDialog.cancelDialog();
                 loadingDialog.dismiss();
             }
-            updateList();
+            if (SystemClock.elapsedRealtime() - updateTimeTamp >= 1000) {
+                mHandler.sendMessage(mHandler.obtainMessage(100));
+                updateTimeTamp = SystemClock.elapsedRealtime();
+            }
         }
     };
 
