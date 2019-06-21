@@ -47,4 +47,13 @@ public class NetInfo {
     public void setIp(long ip) {
         this.ip = ip;
     }
+
+    @Override
+    public String toString() {
+        return "(uid, port, address, type, ip)=" + uid + "," +
+                port +"," +
+                address +"," +
+                type +"," +
+                ip;
+    }
 }

@@ -47,9 +47,9 @@ public class DetailActivity extends BaseActivity {
         TextView tvName = findViewById(R.id.tvName);
         tvName.setText(appInfo.getAppName());
         TextView tvPackeName = findViewById(R.id.tvPackeName);
-        tvPackeName.setText(appInfo.getPackName());
+        tvPackeName.setText(appInfo.getPackName() + "\nuid:" + appInfo.getUid());
         TextView tvVersion = findViewById(R.id.tvVersion);
-        tvVersion.setText(appInfo.getVersion());
+        tvVersion.setText("version:" + appInfo.getVersion());
 
         lvNet = findViewById(R.id.lvNet);
         updatList();

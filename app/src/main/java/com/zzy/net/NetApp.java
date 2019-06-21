@@ -33,7 +33,7 @@ public class NetApp extends Application
 
 	private boolean isInList(List<AppInfo> l, AppInfo a){
 		for (AppInfo i: l){
-			if (i.getPackName().equals(a.getPackName())){
+			if (i.getUid() == a.getUid()){
 				return true;
 			}
 		}

@@ -263,6 +263,7 @@ public class NetFile
 				if(!found)
 				{
 					lsNet.add(netInfo);
+					Log.d("NetFile", netInfo.toString());
 				}
 				break;
 			}

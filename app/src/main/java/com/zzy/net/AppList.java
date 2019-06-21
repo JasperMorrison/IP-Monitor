@@ -70,16 +70,24 @@ public class AppList extends AsyncTask<Void,Void,ArrayList<AppInfo>>
 					if ("android.permission.INTERNET".equals(premission))
 					{
 						appInfo = new AppInfo();
-						sTmp = info.applicationInfo.loadLabel(pManager).toString();
-						appInfo.setAppName(sTmp);
-//						sTmp = HanziToPinyin.getFirstPinYin(sTmp);
-						appInfo.setAllLetter(sTmp);
-						appInfo.setLetter(sTmp.substring(0,1));
-
-						appInfo.setIcon(info.applicationInfo.loadIcon(pManager));
-						appInfo.setPackName(info.packageName);
+						if (info.applicationInfo.uid != 1000) {
+							sTmp = info.applicationInfo.loadLabel(pManager).toString();
+							appInfo.setAppName(sTmp);
+							appInfo.setAllLetter(sTmp);
+							appInfo.setLetter(sTmp.substring(0,1));
+							appInfo.setIcon(info.applicationInfo.loadIcon(pManager));
+							appInfo.setPackName(info.packageName);
+							appInfo.setVersion(info.versionName);
+						}else {
+							sTmp = "Android System";
+							appInfo.setAppName(sTmp);
+							appInfo.setAllLetter(sTmp);
+							appInfo.setLetter(sTmp.substring(0,1));
+							appInfo.setIcon(pManager.getDefaultActivityIcon());
+							appInfo.setPackName("android");
+							appInfo.setVersion("");
+						}
 						appInfo.setUid(info.applicationInfo.uid);
-						appInfo.setVersion(info.versionName);
 						lsApp.add(appInfo);
 						break;
 					}
